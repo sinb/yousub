@@ -5,6 +5,8 @@ from .models import YouSub, NoSubtitleException
 from .options import parse_options
 from .models import logger
 
+name = "yousub"
+
 
 def main():
     try:

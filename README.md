@@ -1,5 +1,5 @@
 # yousub
-A python CLI tool to download subtitles from YouTube
+A python CLI tool to download subtitles from YouTube, .srt, .xml, .json format support.
 
 ## install
 ```
