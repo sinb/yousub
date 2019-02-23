@@ -3,6 +3,12 @@ A python CLI tool to download subtitles from YouTube, .srt, .xml, .json format s
 
 ## install
 ```
+# install from pypi repo
+pip install pypi
+```
+or clone this repo then execute
+```
+# install from source code
 python setup.py install
 ```
 ## usage
