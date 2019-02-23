@@ -6,7 +6,7 @@ from .options import parse_options
 from .models import logger
 
 name = "yousub"
-
+__version__ = '0.0.1'
 
 def main():
     try:
