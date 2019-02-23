@@ -1,6 +1,6 @@
-import argparse
-
 import os
+import argparse
+from urllib import parse
 
 
 def parse_options():
@@ -17,6 +17,9 @@ def parse_options():
                         choices=['srt', 'xml', 'json'])
     args = parser.parse_args()
     args.directory = args.directory or os.getcwd()
-    args.filetype = args.filetype or 'srt'
+    if not os.path.exists(args.directory):
+        os.mkdir(args.directory)
 
+    args.filetype = args.filetype or 'srt'
+    args.url = parse.parse_qs(parse.urlparse(args.url).query)['v'][0]
     return parser, args

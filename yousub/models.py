@@ -11,7 +11,6 @@ logger = logging.getLogger('yousub')
 logger.setLevel(logging.INFO)
 logger.addHandler(logging.StreamHandler())
 
-
 class YouSub:
     LANG_URL = 'https://video.google.com/timedtext?type=list&v=%s'
     SUBTITLE_URL = "https://video.google.com/timedtext?hl=%s&lang=%s&name=&v=%s"
@@ -32,19 +31,23 @@ class YouSub:
     @classmethod
     def get_subtitle_by_lang_code(cls, lang_code, vid, directory, filetype):
         url = cls.SUBTITLE_URL % (lang_code, lang_code, vid)
+        filename = ""
         if filetype == 'srt':
             root = cls.parse_xml_from_url(url)
             str_data = cls.xml_to_srt(root)
-            cls.write_file(directory, lang_code + '_' + vid + '.srt', unescape(str_data))
+            filename = lang_code + '_' + vid + '.srt'
+            cls.write_file(directory, filename, unescape(str_data))
         if filetype == 'xml':
             root = cls.parse_xml_from_url(url)
+            filename = lang_code + '_' + vid + '.xml'
             str_data = ET.tostring(root, encoding="unicode", method="xml")
-            cls.write_file(directory, lang_code + '_' + vid + '.xml', str_data)
+            cls.write_file(directory, filename, str_data)
         if filetype == 'json':
             root = cls.parse_xml_from_url(url)
+            filename = lang_code + '_' + vid + '.json'
             str_data = cls.xml_to_json(root)
-            cls.write_file(directory, lang_code + '_' + vid + '.json', str_data)
-
+            cls.write_file(directory, filename, str_data)
+        logger.info("Successfully download file %s" % filename)
     @staticmethod
     def parse_xml_from_url(url):
         logger.debug("Retrieve from url: %s" % url)
@@ -60,12 +63,12 @@ class YouSub:
         for child in root:
             subtitle_data.append({
                 "line": line,
-                "text": unescape(child.text),
+                "text": unescape(child.text or ""),
                 "start": child.attrib['start'],
                 "dur": child.attrib['dur']
             })
             line += 1
-        return json.dumps(subtitle_data, ensure_ascii=True, indent=4)
+        return json.dumps(subtitle_data, ensure_ascii=False, indent=4)
 
     @staticmethod
     def xml_to_srt(root):
