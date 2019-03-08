@@ -4,7 +4,7 @@ A python CLI tool to download subtitles from YouTube, .srt, .xml, .json format s
 ## install
 ```
 # install from pypi repo
-pip install pypi
+pip install yousub
 ```
 or clone this repo then execute
 ```
